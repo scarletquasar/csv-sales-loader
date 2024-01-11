@@ -14,5 +14,4 @@ C -->|Fetch from| D[PostgreSQL
 Replica Database]
 C -->|Filled by| E[Node.js CSV File 
 Storage Service]
- D
 ```
