@@ -7,11 +7,8 @@ flowchart LR
 
 A[React Frontend] -->|REST Call| B(Node.js Fastify Core)
 
-B -->|REST Call| C[Node.js Eventual 
-ConsistencyService]
+B -->|REST Call| C[Node.js Eventual  <br> Consistency Service]
 
-C -->|Fetch from| D[PostgreSQL 
-Replica Database]
-C -->|Filled by| E[Node.js CSV File 
-Storage Service]
+C -->|Fetch from| D[PostgreSQL <br> Replica Database]
+C -->|Filled by| E[Node.js CSV File  <br> Storage Service]
 ```
