@@ -2,5 +2,12 @@
     "name": "ec-service",
     "scripts": {
         "dev": "echo ec-service dev"
+    },
+    "dependencies": {
+        "csv-parse": "^5.5.3"
+    },
+    "devDependencies": {
+        "@types/isomorphic-fetch": "^0.0.39",
+        "@types/node": "^20.11.0"
     }
 }
