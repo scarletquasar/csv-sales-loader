@@ -1,0 +1,6 @@
+{
+    "name": "ec-service",
+    "scripts": {
+        "dev": "echo ec-service dev"
+    }
+}

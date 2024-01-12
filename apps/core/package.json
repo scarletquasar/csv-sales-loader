@@ -1,0 +1,6 @@
+{
+    "name": "core",
+    "scripts": {
+        "dev": "echo core dev"
+    }
+}
