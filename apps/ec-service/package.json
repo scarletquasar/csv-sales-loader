@@ -4,7 +4,8 @@
         "dev": "echo ec-service dev"
     },
     "dependencies": {
-        "csv-parse": "^5.5.3"
+        "csv-parse": "^5.5.3",
+        "ts-async-kit": "0.1.5"
     },
     "devDependencies": {
         "@types/isomorphic-fetch": "^0.0.39",

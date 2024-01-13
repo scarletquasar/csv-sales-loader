@@ -1,24 +1,34 @@
-import { readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile, mkdir } from 'fs/promises';
+import { existsSync } from 'fs';
 import { join } from 'path';
+import { IndexOptions, CsvFile } from 'types';
 
-type CsvFile = {
-    content: Buffer,
-    path: string,
-    position: number
-}
-
-type IndexOptions = {
-    currentIndex: number,
-    files: Array<{
-        position: number,
-        path: string
-    }>
-};
+type CsvReference = IndexOptions['files'][number];
 
 class CsvService {
+    private static indexPath = join('/', '.store', 'index.json');
+
+    public static async setupFileStore() {
+        const storeFolderPath = join('/', '.store');
+        const storeFolderExists = existsSync(storeFolderPath);
+        const indexFileExists = existsSync(this.indexPath);
+
+        if (!storeFolderExists) {
+            await mkdir(storeFolderPath, { recursive: true });
+        }
+
+        if (!indexFileExists) {
+            const options: IndexOptions = {
+                currentIndex: 0,
+                files: []
+            }
+
+            await writeFile(this.indexPath, JSON.stringify(options));
+        }
+    }
+
     public static async getNextFiles(quantity: number): Promise<CsvFile[]> {
-        const indexPath = join('.store', 'index.json');
-        const index = (await readFile(indexPath)).toString();
+        const index = (await readFile(this.indexPath)).toString();
         const options = JSON.parse(index) as IndexOptions;
 
         const start = options.currentIndex;
@@ -31,14 +41,20 @@ class CsvService {
         const files = await Promise.all(readPromises);
         
         const newOptions: IndexOptions = { ...options, currentIndex: end + 1 };
-        await writeFile(indexPath, JSON.stringify(newOptions));
+        await writeFile(this.indexPath, JSON.stringify(newOptions));
 
         return files;
-}
+    }
 
     private static async readFileWithMetadata(path: string, position: number) {
-        const content = await readFile(path);
-        return { content, path, position }
+        try {
+            const content = await readFile(path);
+            return { content, path, position }
+        }
+        catch {
+            return { content: Buffer.from(''), path, position };
+        }
+
     }
 }
 
